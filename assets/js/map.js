@@ -461,7 +461,7 @@ var HAS_HASHCHANGE = (function() {
     options: {
         position: 'bottomleft',
         title: 'Social networks',
-        text: "VuDuCiel Loire-Atlantique",
+        text: "Photographies aériennes de Cannes",
         links: [
           ['facebook', "Partager sur Facebook", "https://www.facebook.com/sharer.php?u=_url_&t=_text_"],
           ['twitter', "Partager sur Twitter", "http://twitter.com/intent/tweet?text=_text_&url=_url_"],
@@ -938,16 +938,17 @@ var HAS_HASHCHANGE = (function() {
 
     randomDisplay: function() {
       var niceLocations = [
-        ["Le Terril, Abbaretz", 18, 47.56142, -1.54120],
-        ["La Bôle de Merquel, Mesquer", 16, 47.4179, -2.4539],
-        ["La Brière, Saint-Joachim", 16, 47.3734, -2.2223],
-        ["Marais de Lyarne, Les Moutiers-en-Retz", 17, 47.04490, -1.97523],
-        ["Château de Clisson et Domaine de la Garenne Lemot, Clisson", 18, 47.08590, -1.27772],
-        ["Estuaire de la Loire", 15, 47.2907, -1.9411],
-        ["Château, Châteaubriant", 18, 47.71958, -1.37327],
-        ["La Loire, Ancenis", 16, 47.3705, -1.0800],
-        ["Le Pont de Saint-Nazaire", 14, 47.2789, -2.1653],
-        ["Lac de Vioreau, Joué-sur-Erdre", 15, 47.5232, -1.4230],
+        ["Bocca nord", 15, 43.5628, 6.9673],
+        ["Bocca sud", 15, 43.5507, 6.9734],
+        ["Californie", 15, 43.5582, 7.0413],
+        ["Carnot", 15, 43.5579, 7.0181],
+        ["Centre ville - Croisette", 15, 43.54929, 7.02261],
+        ["Croix-des-Gardes", 15, 43.5565, 6.9961],
+        ["Iles de Lérins", 15, 43.5160, 7.0532],
+        ["Pointe Croisette", 15, 43.5407, 7.0406],
+        ["Prado - République", 15, 43.5584, 7.0255],
+        ["Riou - Petit Juas", 15, 43.5592, 7.0101],
+        ["Suquet", 15, 43.55015, 7.01279],
       ];
       var random = niceLocations[Math.floor(Math.random()*niceLocations.length)];
       map.setView([random[2], random[3]], random[1]);
@@ -963,8 +964,8 @@ var HAS_HASHCHANGE = (function() {
   //  MAP INIT
   // #############
 
-  var max_bounds_strict = new L.LatLngBounds(new L.LatLng(46.86008, -2.55754), new L.LatLng(47.83486, -0.92346));
-  var max_bounds_buffer = new L.LatLngBounds(new L.LatLng(46.8, -3.0), new L.LatLng(47.87, -0.8));
+  var max_bounds_strict = new L.LatLngBounds(new L.LatLng(43.5, 6.92), new L.LatLng(43.59, 7.09));
+  var max_bounds_buffer = new L.LatLngBounds(new L.LatLng(43.5, 6.92), new L.LatLng(43.59, 7.09));
   var map = L.map('map',
       {
         maxBounds: max_bounds_buffer,
@@ -1014,61 +1015,22 @@ var HAS_HASHCHANGE = (function() {
     }
   );
 
-  var ortho2012 = new L.FallbackTileLayer('http://{s}.tiles.vuduciel.loire-atlantique.fr/ortho-2012/{z}/{x}/{y}.jpg', {
-    continuousWorld: true,  // very important
-    tms: true,
-    maxZoom: 19,
-    subdomains: "abcdefgh",
-    attribution: "",
-    errorTileUrl: "/assets/images/empty.png"
-  }).addTo(map);
+  var ortho2009 = new L.tileLayer.wms("http://cannesig.oxyd.net/geoserver/wms", {
+        layers: 'orthophoto2009',
+        format: 'image/jpeg',
+        styles: 'ortho_2004_15cm',
+        transparent: false,
+        attribution: "Cannes",
+        crs:L.CRS.EPSG4326
+    }).addTo(map);
 
-  ortho2012.on('load', function() {
-    // do not display external layers if not near limit
-    if(ortho2012.reachLimit()) {
-      map.addLayer(ign);
-      map.addLayer(streets_mapquest);
-      ortho2012._container.style.zIndex=1;
-    } else {
-      map.removeLayer(ign);
-      map.removeLayer(streets_mapquest);
-    }
-
-    // wait for progressive jpeg to render
-    window.setTimeout(function() {
-      Ortho44.setClass(document.querySelector('body'), "map-initialized");
-    }, 500);
-  });
-  ortho2012.on('loading', function() {
-    ortho2012._limit = false;
-  });
-
-  var border = L.geoJson(loire_atlantique_json, {
-    style: function (feature) {
-        return {
-          fillColor: "transparent",
-          fillOpacity: 0,
-          weight: 2,
-          opacity: 1,
-          color: 'white',
-          dashArray: '3',
-          };
-    }
-  }).addTo(map);
-  map.on('zoomend', function(e) {
-    if (map.getZoom() > 14) {
-      border.setStyle({color: 'transparent'});
-    } else {
-      border.setStyle({color: 'white'});
-    }
-  });
 
   // CONTROLS
   var osm = new L.TileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {maxZoom: 11, attribution: "Map data &copy; OpenStreetMap contributors"});
   var miniMap = new L.Control.MiniMap(osm, {
     zoomLevelFixed: 7,
     fixedPosition: true,
-    center: [-1.8237, 47.35],
+    center: [7.02, 43.56],
     width: 160
   }).addTo(map);
 
@@ -1082,27 +1044,27 @@ var HAS_HASHCHANGE = (function() {
     subdomains: 'abcdefgh'
   });
   var older_layers = {
-    'ortho1850': {url:'http://{s}.tiles.vuduciel.loire-atlantique.fr/ortho-1850/{z}/{x}/{y}.jpg', options: {
+    'ortho1814': {url:'http://{s}.tiles.vuduciel.loire-atlantique.fr/ortho-1850/{z}/{x}/{y}.jpg', options: {
       maxZoom: 16,
       tms: true,
       subdomains: 'abcdefgh'
     }},
-    'ortho1949': {url:'http://{s}.tiles.vuduciel.loire-atlantique.fr/ortho-1949/{z}/{x}/{y}.jpg', options: {
+    'ortho1884': {url:'http://{s}.tiles.vuduciel.loire-atlantique.fr/ortho-1949/{z}/{x}/{y}.jpg', options: {
       maxZoom: 18,
       tms: true,
       subdomains: 'abcdefgh'
     }},
-    'ortho1999': {url:'http://{s}.tiles.vuduciel.loire-atlantique.fr/ortho-1999/{z}/{x}/{y}.jpg', options: {
+    'ortho1948': {url:'http://{s}.tiles.vuduciel.loire-atlantique.fr/ortho-1999/{z}/{x}/{y}.jpg', options: {
       maxZoom: 18,
       tms: true,
       subdomains: 'abcdefgh'
     }},
-    'ortho2004': {url:'http://{s}.tiles.vuduciel.loire-atlantique.fr/ortho-2004/{z}/{x}/{y}.jpg', options: {
+    'ortho1999': {url:'http://{s}.tiles.vuduciel.loire-atlantique.fr/ortho-2004/{z}/{x}/{y}.jpg', options: {
       maxZoom: 18,
       tms: true,
       subdomains: 'abcdefgh'
     }},
-    'ortho2009': {url:'http://{s}.tiles.vuduciel.loire-atlantique.fr/ortho-2009/{z}/{x}/{y}.jpg', options: {
+    'ortho2004': {url:'http://{s}.tiles.vuduciel.loire-atlantique.fr/ortho-2009/{z}/{x}/{y}.jpg', options: {
       maxZoom: 18,
       tms: true,
       subdomains: 'abcdefgh'
@@ -1113,7 +1075,6 @@ var HAS_HASHCHANGE = (function() {
   (new L.Control.ZoomFS()).addTo(map);
   var overlayMaps = {
     "Afficher les rues": streets_custom_osm,
-    "Afficher les limites départementales": border
   };
   L.control.layers(null, overlayMaps,
     {position: "topleft"}

@@ -18,7 +18,7 @@
 
   <!-- CSS Files -->
   <link rel="stylesheet" href="assets/css/foundation.min.css" />
-  <link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" />
+  <link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css" />
   <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/app.css" />
 
@@ -51,7 +51,7 @@
 			</div>
 			<div class="small-6 columns">
 				<div id="zero-results" class="icon-exclamation-sign"></div>
-				<input type="text" placeholder="exemple : 3 quai Ceineray, Nantes" name="search" id="search-input"/>
+				<input type="text" placeholder="exemple : Promenade de la Pantiero, Cannes" name="search" id="search-input"/>
 				<ul id="choice-list" class="f-dropdown medium">
 				</ul>
 			</div>
@@ -62,14 +62,18 @@
 	</div>
 	<div class="large-7 columns compare-with-container">
 		<form id="compare-with">
-			Comparer <span class="label-white">2012</span> avec  
+			Comparer <span class="label-white">2009</span> avec  
 			<span class="label-black">
-				<input type="checkbox" id="compare-ortho1850" name="compare-layer" value="1850" />
-				<label for="compare-ortho1850">1850</label>
+				<input type="checkbox" id="compare-ortho1814" name="compare-layer" value="1814" />
+				<label for="compare-ortho1850">1814</label>
 			</span>
 			<span class="label-black">
-				<input type="checkbox" id="compare-ortho1949" name="compare-layer" value="1949" />
-				<label for="compare-ortho1949">1949</label>
+				<input type="checkbox" id="compare-ortho1884" name="compare-layer" value="1884" />
+				<label for="compare-ortho1949">1884</label>
+			</span>
+			<span class="label-black">
+				<input type="checkbox" id="compare-ortho1948" name="compare-layer" value="1948" />
+				<label for="compare-ortho2009">1948</label>
 			</span>
 			<span class="label-black">
 				<input type="checkbox" id="compare-ortho1999" name="compare-layer" value="1999" />
@@ -78,10 +82,6 @@
 			<span class="label-black">
 				<input type="checkbox" id="compare-ortho2004" name="compare-layer" value="2004" />
 				<label for="compare-ortho2004">2004</label>
-			</span>
-			<span class="label-black">
-				<input type="checkbox" id="compare-ortho2009" name="compare-layer" value="2009" />
-				<label for="compare-ortho2009">2009</label>
 			</span>
 		</form>
 	</div>
@@ -161,7 +161,7 @@
 <script src="assets/js/foundation.js"></script>
 <script src="assets/js/map.js"></script>
 
-<script type='text/javascript' src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
+<script type='text/javascript' src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
 <script src="assets/js/Control.MiniMap.js" type="text/javascript"></script>
 
 <div id="snippet" class="reveal-modal">
